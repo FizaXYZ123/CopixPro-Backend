@@ -78,6 +78,7 @@ export default {
                     phoneNumber,
                     provider: "local",
                     confirmed: false,
+                    isActive:false,
                     blocked: false,
                     confirmationToken,
                     role: clientRole.id,
@@ -87,7 +88,7 @@ export default {
                 `${process.env.BACKEND_URL}/api/client/verify-email?token=${confirmationToken}`;
 
             try {
-                console.log("SENDING EMAIL TO:", normalizedEmail)
+                // console.log("SENDING EMAIL TO:", normalizedEmail)
 
                 const emailResult = await strapi.plugins.email.services.email.send({
                     to: normalizedEmail,
@@ -96,7 +97,7 @@ export default {
                     html: ` <div style=" font-family:Arial,sans-serif; max-width:600px; margin:auto; background:#ffffff; border-radius:12px; padding:40px; box-shadow:0 2px 10px rgba(0,0,0,0.08); border:1px solid #eee; " > <div style="text-align:center;padding-bottom:20px"> <img src="" alt="CopiXPro" style=" max-width:220px; height:auto; " /> </div> <h2 style=" color:#222; text-align:center; margin-bottom:25px; font-size:28px; " > Welcome to CopiXPro 🚀 </h2> <p style=" font-size:16px; color:#444; line-height:1.8; " > Hi <strong>${firstName}</strong>, </p> <p style=" font-size:16px; color:#555; line-height:1.8; " > Thank you for registering with CopiXPro. </p> <p style=" font-size:16px; color:#555; line-height:1.8; " > Please verify your email address by clicking the button below. </p> <div style=" text-align:center; margin:35px 0; " > <a href="${confirmationLink}" style=" background:#ff6a00; color:#fff; padding:14px 32px; text-decoration:none; border-radius:8px; display:inline-block; font-weight:bold; font-size:15px; " > Verify Email </a> </div> <p style=" color:#666; line-height:1.8; font-size:14px; " > If you didn't create this account, simply ignore this email. </p> <hr style=" border:none; border-top:1px solid #e5e5e5; margin:25px 0; " /> <p style=" font-size:12px; color:#999; text-align:center; " > © ${new Date().getFullYear()} CopiXPro. All rights reserved. </p> </div> `,
                 });
 
-                console.log("EMAIL RESULT:", emailResult);
+                // console.log("EMAIL RESULT:", emailResult);
 
                 if (!emailResult) {
                     await strapi.db
@@ -174,10 +175,11 @@ export default {
                 data: {
                     confirmed: true,
                     confirmationToken: null,
+                    isActive:true
                 },
             });
 
-        ctx.redirect(`${process.env.FRONTEND_URL}/verified-success`);
+        ctx.redirect(`${process.env.FRONTEND_URL}/login`);
     },
 
     async login(ctx: any) {

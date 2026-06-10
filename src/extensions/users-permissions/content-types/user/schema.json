@@ -81,6 +81,16 @@
       "relation": "oneToMany",
       "target": "api::payment-log.payment-log",
       "mappedBy": "users_permissions_user"
+    },
+    "machine_ids": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::machine-id.machine-id",
+      "mappedBy": "users_permissions_user"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default":false
     }
   }
 }

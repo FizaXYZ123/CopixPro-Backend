@@ -440,6 +440,38 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiMachineIdMachineId extends Struct.CollectionTypeSchema {
+  collectionName: 'machine_ids';
+  info: {
+    displayName: 'machineId';
+    pluralName: 'machine-ids';
+    singularName: 'machine-id';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::machine-id.machine-id'
+    > &
+      Schema.Attribute.Private;
+    machineId: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiPaymentLogPaymentLog extends Struct.CollectionTypeSchema {
   collectionName: 'payment_logs';
   info: {
@@ -467,6 +499,7 @@ export interface ApiPaymentLogPaymentLog extends Struct.CollectionTypeSchema {
     payment_status: Schema.Attribute.Enumeration<['paid']>;
     publishedAt: Schema.Attribute.DateTime;
     response: Schema.Attribute.JSON;
+    software: Schema.Attribute.Relation<'manyToOne', 'api::software.software'>;
     transactionId: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -476,6 +509,39 @@ export interface ApiPaymentLogPaymentLog extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     wiseTransferId: Schema.Attribute.String;
+  };
+}
+
+export interface ApiSoftwareSoftware extends Struct.CollectionTypeSchema {
+  collectionName: 'softwares';
+  info: {
+    displayName: 'software';
+    pluralName: 'softwares';
+    singularName: 'software';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    downloadFileUrl: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::software.software'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    payment_logs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::payment-log.payment-log'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -950,6 +1016,7 @@ export interface PluginUsersPermissionsUser
         minLength: 6;
       }>;
     firstName: Schema.Attribute.String;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     lastName: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -957,6 +1024,10 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    machine_ids: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::machine-id.machine-id'
+    >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{
@@ -997,7 +1068,9 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::machine-id.machine-id': ApiMachineIdMachineId;
       'api::payment-log.payment-log': ApiPaymentLogPaymentLog;
+      'api::software.software': ApiSoftwareSoftware;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

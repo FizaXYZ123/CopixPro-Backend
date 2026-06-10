@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "softwares",
+  "info": {
+    "singularName": "software",
+    "pluralName": "softwares",
+    "displayName": "software"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "downloadFileUrl": {
+      "type": "string"
+    },
+    "payment_logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::payment-log.payment-log",
+      "mappedBy": "software"
+    }
+  }
+}

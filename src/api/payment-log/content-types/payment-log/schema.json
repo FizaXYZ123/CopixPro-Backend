@@ -25,7 +25,6 @@
       "enum": [
         "paid"
       ]
-     
     },
     "response": {
       "type": "json"
@@ -44,6 +43,12 @@
     },
     "amount": {
       "type": "decimal"
+    },
+    "software": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::software.software",
+      "inversedBy": "payment_logs"
     }
   }
 }

@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "machine_ids",
+  "info": {
+    "singularName": "machine-id",
+    "pluralName": "machine-ids",
+    "displayName": "machineId"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "machineId": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "machine_ids"
+    }
+  }
+}
