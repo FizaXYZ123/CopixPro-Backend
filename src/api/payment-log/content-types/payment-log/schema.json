@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_logs",
+  "info": {
+    "singularName": "payment-log",
+    "pluralName": "payment-logs",
+    "displayName": "payment_logs"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "transactionId": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "payment_status": {
+      "type": "enumeration",
+      "enum": [
+        "paid"
+      ]
+     
+    },
+    "response": {
+      "type": "json"
+    },
+    "wiseTransferId": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "payment_logs"
+    },
+    "paidAt": {
+      "type": "datetime"
+    },
+    "amount": {
+      "type": "decimal"
+    }
+  }
+}
